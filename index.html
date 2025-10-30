@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Awareness: Anatomy of an Attack</title>
+    <!-- 
+      This is a self-contained HTML file. 
+      All CSS (styling) is included in the <style> tag below.
+    -->
+    <style>
+        /* --- Global Styles --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #212529;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            color: #004a99; /* Strong Blue */
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #003366; /* Deeper Blue */
+            margin-top: 40px;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #d9534f; /* Red for threat */
+        }
+        
+        h3.defense {
+            color: #5cb85c; /* Green for defense */
+        }
+
+        p, ul, ol {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        ul, ol {
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        code {
+            background-color: #e9ecef;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c7254e;
+        }
+        
+        strong {
+            color: #003366;
+        }
+
+        /* --- Header & Nav --- */
+        .header {
+            background: linear-gradient(135deg, #003366, #005a9c);
+            color: #ffffff;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 5px solid #f0ad4e; /* Gold accent */
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 3em;
+            margin: 0;
+            border: 0;
+            padding: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin: 10px 0 0 0;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            padding: 10px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: inline-block;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #005a9c;
+        }
+
+        /* --- Page Sections --- */
+        section {
+            background-color: #ffffff;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* --- Info Cards --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .card.threat {
+            border-left: 5px solid #d9534f; /* Red */
+        }
+        
+        .card.defense {
+            border-left: 5px solid #5cb85c; /* Green */
+        }
+        
+        .card-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+        }
+
+        /* --- QR Code Example --- */
+        .qr-example-container {
+            background-color: #fff8f8;
+            border: 2px solid #d9534f;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .qr-example-container h4 {
+            margin-top: 0;
+            font-size: 1.3em;
+            color: #d9534f;
+        }
+
+        .qr-code-fake {
+            padding: 15px;
+            background: #fdfdfd;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .qr-warning {
+            font-size: 1.1em;
+            color: #a94442;
+            margin-bottom: 0;
+        }
+
+
+        /* --- Footer --- */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #6c757d;
+            font-size: 0.9em;
+            border-top: 1px solid #dee2e6;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 600px) {
+            .navbar a {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+
+            .header h1 {
+                font-size: 2.2em;
+            }
+             .header p {
+                font-size: 1.1em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            section {
+                padding: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- --- Header --- -->
+    <header class="header">
+        <h1>🛡️ Cybersecurity Awareness</h1>
+        <p>Anatomy of an Attack: QR Code Phishing</p>
+    </header>
+
+    <!-- --- Navigation Bar --- -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#case-study">Case Study</a>
+            <a href="#analysis">Threat Analysis</a>
+            <a href="#defense">How to Defend</a>
+        </div>
+    </nav>
+
+    <!-- --- Main Content Container --- -->
+    <div class="container">
+
+        <!-- --- Introduction / Case Study --- -->
+        <section id="case-study">
+            <h2>Case Study: The "School Event" Scam</h2>
+            <p>As a cybersecurity student, it's vital to understand how attackers think. Let's analyze a common scenario to see how a simple attack works and, more importantly, how to stop it.</p>
+            
+            <div class="card-grid">
+                <!-- Target -->
+                <article class="card threat">
+                    <div class="card-title">
+                        <span class="card-icon">🎯</span>
+                        <h3>The Target</h3>
+                    </div>
+                    <p><strong>Students at a school.</strong> Why? They are a large group, easily reachable, and might be excited or distracted by a popular event (like "Battle of the Classes"). Attackers love to target people who are in a hurry or emotional.</p>
+                </article>
+                
+                <!-- Method -->
+                <article class="card threat">
+                    <div class="card-title">
+                        <span class="card-icon">🎣</span>
+                        <h3>The Method</h3>
+                    </div>
+                    <p><strong>QR Code Phishing (Quishing).</strong> This is a type of <strong>social engineering</strong>. Attackers put up physical posters with QR codes around the school, pretending to sell tickets to the event. This bypasses email filters and looks official.</p>
+                </article>
+
+                <!-- Goal -->
+                <article class="card threat">
+                    <div class="card-title">
+                        <span class="card-icon">💳</span>
+                        <h3>The Goal</h3>
+                    </div>
+                    <p><strong>Information Theft.</strong> The QR code sends students to a fake website that looks just like the real one. When a student enters their credit card info to "buy tickets," the attackers steal that information. The website might be a copy of the real one with a slightly different URL (e.g., <code>battle-of-classes.com</code> instead of <code>battleofclasses.org</code>).</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- --- Part 2: Threat Analysis --- -->
+        <section id="analysis">
+            <h2>Threat Analysis: How It Works</h2>
+            <p>This attack is effective because it combines real-world trust with digital deception. Let's look at the steps.</p>
+            <ol>
+                <li><strong>Reconnaissance:</strong> The attacker doesn't need to know individual students. They just need to know about the event, the target audience (students), and the location (the school). This information is often public.</li>
+                <li><strong>The Lure:</strong> The attacker hangs QR codes in high-traffic areas (like hallways or the cafeteria). The poster looks legitimate and creates a sense of urgency ("Buy tickets now!").</li>
+                <li><strong>The Trap:</strong> The QR code link directs the student's phone to a fake website. This site is a trap, designed to capture any information typed into it (like a <code>&lt;form&gt;</code> that sends data to the attacker's server). This is often called a "credential harvesting" or "payment skimming" site.</li>
+                <li><strong>The Exploit:</strong> The student, thinking they are buying a ticket, types in their (or their parents') name, address, and credit card number. When they hit "Submit," this data is sent directly to the attacker. The site might then show a fake "Error" message or redirect to the *real* event page to avoid suspicion.</li>
+            </ol>
+
+            <!-- --- NEW QR CODE EXAMPLE --- -->
+            <div class="qr-example-container">
+                <h4>Example of a Malicious Poster</h4>
+                <div class="qr-code-fake">
+                    <!-- 
+                      FOR YOUR PROJECT: 
+                      If you have a safe, educational QR code you created (e.g., as a .png file), 
+                      you can add it here. Replace the entire <svg> block below with 
+                      an <img> tag like this:
+
+                      <img src="file:///C:/Users/lachlan.kennedy/Downloads/frame.png" alt="Educational QR Code Example" width="150">
+                    -->
+
+                    <!-- Simplified, non-scannable SVG representation of a QR code -->
+                    <svg width="150" height="150" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" style="display: block; margin: 0 auto; background: #fff; border: 5px solid #000;">
+                      <rect width="50" height="50" fill="#fff"/>
+                      <!-- Finder patterns (simplified) -->
+                      <rect x="5" y="5" width="15" height="15" fill="#000"/>
+                      <rect x="7" y="7" width="11" height="11" fill="#fff"/>
+                      <rect x="9" y="9" width="7" height="7" fill="#000"/>
+                      
+                      <rect x="30" y="5" width="15" height="15" fill="#000"/>
+                      <rect x="32" y="7" width="11" height="11" fill="#fff"/>
+                      <rect x="34" y="9" width="7" height="7" fill="#000"/>
+            
+                      <rect x="5" y="30" width="15" height="15" fill="#000"/>
+                      <rect x="7" y="32" width="11" height="11" fill="#fff"/>
+                      <rect x="9" y="34" width="7" height="7" fill="#000"/>
+                      
+                      <!-- Some random "data" blocks to make it look real -->
+                      <rect x="25" y="25" width="5" height="5" fill="#000"/>
+                      <rect x="30" y="25" width="5" height="5" fill="#000"/>
+                      <rect x="35" y="30" width="5" height="5" fill="#000"/>
+                      <rect x="25" y="35" width="5" height="5" fill="#000"/>
+                      <rect x="30" y="40" width="10" height="5" fill="#000"/>
+                      <rect x="40" y="40" width="5" height="5" fill="#000"/>
+                      <rect x="40" y="25" width="5" height="10" fill="#000"/>
+                      <rect x="22" y="5" width="5" height="5" fill="#000"/>
+                      <rect x="22" y="15" width="5" height="5" fill="#000"/>
+                      <rect x="5" y="22" width="5" height="5" fill="#000"/>
+                      <rect x="15" y="22" width="5" height="5" fill="#000"/>
+                    </svg>
+                </div>
+                <p class="qr-warning"><strong>⚠️ Warning:</strong> This is a visual example of what a malicious QR code on a poster might look like. <strong>NEVER scan a QR code from a source you don't trust.</strong> It could lead to a fake website designed to steal your information.</p>
+            </div>
+            <!-- --- END OF NEW EXAMPLE --- -->
+
+        </section>
+
+        <!-- --- Part 3: How to Defend --- -->
+        <section id="defense">
+            <h2>How to Defend Against This Attack</h2>
+            <p>This attack is 100% preventable. Here are the key countermeasures anyone can use.</p>
+
+            <div classs="card-grid">
+                <article class="card defense">
+                    <div class="card-title">
+                        <span class="card-icon">🧠</span>
+                        <h3 class="defense">1. Be Skeptical of Public QR Codes</h3>
+                    </div>
+                    <p>Treat unknown QR codes on posters just like you would a suspicious link in an email. Don't trust them just because they are in a physical space. Attackers can (and do) print stickers to place over real QR codes.</p>
+                </article>
+                
+                <article class="card defense">
+                    <div class="card-title">
+                        <span class="card-icon">✅</span>
+                        <h3 class="defense">2. Verify the Website URL</h3>
+                    </div>
+                    <p>When the QR code opens your browser, <strong>look at the URL bar immediately.</strong></p>
+                    <ul>
+                        <li>Does the website address look correct? Check for misspellings (e.g., <code>paypa1.com</code> instead of <code>paypal.com</code>).</li>
+                        <li>Is the site secure? Look for the <strong>padlock icon 🔒</strong> and <code>https://</code>. While attackers can get these, a missing padlock is a huge red flag for a payment site.</li>
+                    </ul>
+                </article>
+                
+                <article class="card defense">
+                    <div class="card-title">
+                        <span class="card-icon">🏠</span>
+                        <h3 class="defense">3. Go Directly to the Source</h3>
+                    </div>
+                    <p>Instead of scanning the code, go to the <strong>official, known website.</strong> For a school event, this would be the school's official website. Find the event link there. This is the safest way to ensure you are on the legitimate page.</p>
+                </article>
+                
+                <article class="card defense">
+                    <div class="card-title">
+                        <span class="card-icon">🔄</span>
+                        <h3 class="defense">4. Keep Devices Updated</h3>
+                    </div>
+                    <p>Keep your phone's operating system and your browser app updated. These updates often include patches for security vulnerabilities that could be exploited by malicious websites.</p>
+                </article>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- --- Footer --- -->
+    <footer class="footer">
+        <p>This website is for educational purposes to promote cybersecurity awareness and defensive thinking.</p>
+    </footer>
+
+</body>
+</html>
+
+
+
